@@ -21,6 +21,9 @@ public class MAXSwerveModule {
     private final CANSparkMax m_drivingSparkMax;
     private final CANSparkMax m_turningSparkMax;
 
+    public String printEncoders() {
+        return m_drivingSparkMax.getDeviceId()+ " Driving: " + m_drivingEncoder.getPosition() + " Turning: " + m_turningEncoder.getPosition();
+    }
     private final RelativeEncoder m_drivingEncoder;
     private final AbsoluteEncoder m_turningEncoder;
 
@@ -52,6 +55,7 @@ public class MAXSwerveModule {
         m_turningPIDController = m_turningSparkMax.getPIDController();
         m_drivingPIDController.setFeedbackDevice(m_drivingEncoder);
         m_turningPIDController.setFeedbackDevice(m_turningEncoder);
+
 
         // Apply position and velocity conversion factors for the driving encoder. The
         // native units for position and velocity are rotations and RPM, respectively,
@@ -104,6 +108,10 @@ public class MAXSwerveModule {
         // operation, it will maintain the above configurations.
         m_drivingSparkMax.burnFlash();
         m_turningSparkMax.burnFlash();
+
+        // Set smart current limit
+        m_turningSparkMax.setSmartCurrentLimit(20);
+        m_drivingSparkMax.setSmartCurrentLimit(35);
 
         m_chassisAngularOffset = chassisAngularOffset;
         m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());

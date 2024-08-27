@@ -40,6 +40,9 @@ public class RobotContainer {
     // The driver's controller
     Joystick driverController = new Joystick(OIConstants.kDriverControllerPort);
 
+    public void printDangEncoders() {
+        robotDrive.printEncoders();
+    }
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -71,7 +74,7 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // Cease robot movement
-        new JoystickButton(driverController, 0)
+        new JoystickButton(driverController, 1)
                 .whileTrue(new RunCommand(
                         robotDrive::setX,
                         robotDrive));

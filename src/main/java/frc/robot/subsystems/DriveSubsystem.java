@@ -41,6 +41,17 @@ public class DriveSubsystem extends SubsystemBase {
             DriveConstants.kRearRightTurningCanId,
             DriveConstants.kBackRightChassisAngularOffset);
 
+    public void printEncoders() {
+        String out =
+                "==S==\n" +
+                m_rearLeft.printEncoders() + '\n' +
+                m_rearRight.printEncoders() + '\n' +
+                m_frontLeft.printEncoders() + '\n' +
+                m_frontRight.printEncoders() + '\n' +
+                "==E==\n";
+        System.out.println(out);
+    }
+
     // The gyro sensor
     private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();
 
@@ -67,8 +78,7 @@ public class DriveSubsystem extends SubsystemBase {
     /**
      * Creates a new DriveSubsystem.
      */
-    public DriveSubsystem() {
-    }
+    public DriveSubsystem() {}
 
     @Override
     public void periodic() {
