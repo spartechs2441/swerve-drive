@@ -104,14 +104,13 @@ public class MAXSwerveModule {
         m_drivingSparkMax.setSmartCurrentLimit(ModuleConstants.kDrivingMotorCurrentLimit);
         m_turningSparkMax.setSmartCurrentLimit(ModuleConstants.kTurningMotorCurrentLimit);
 
-        // Save the SPARK MAX configurations. If a SPARK MAX browns out during
-        // operation, it will maintain the above configurations.
+        // Set smart current limit
+        m_turningSparkMax.setSmartCurrentLimit(20);        // Save the SPARK MAX configurations. If a SPARK MAX browns out during
+        m_drivingSparkMax.setSmartCurrentLimit(35);        // operation, it will maintain the above configurations.
+
+
         m_drivingSparkMax.burnFlash();
         m_turningSparkMax.burnFlash();
-
-        // Set smart current limit
-        m_turningSparkMax.setSmartCurrentLimit(20);
-        m_drivingSparkMax.setSmartCurrentLimit(35);
 
         m_chassisAngularOffset = chassisAngularOffset;
         m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());

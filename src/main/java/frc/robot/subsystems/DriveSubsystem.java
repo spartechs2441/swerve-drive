@@ -129,6 +129,8 @@ public class DriveSubsystem extends SubsystemBase {
      *                      field.
      * @param rateLimit     Whether to enable rate limiting for smoother control.
      */
+
+    // Joystick Driving
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
 
         double xSpeedCommanded;
@@ -136,8 +138,8 @@ public class DriveSubsystem extends SubsystemBase {
 
         if (rateLimit) {
             // Convert XY to polar for rate limiting
-            double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
-            double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2));
+            double inputTranslationDir = Math.atan2(ySpeed, xSpeed); // Direction
+            double inputTranslationMag = Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2)); // Magnitude
 
             // Calculate the direction slew rate based on an estimate of the lateral acceleration
             double directionSlewRate;
@@ -190,6 +192,7 @@ public class DriveSubsystem extends SubsystemBase {
                         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
         SwerveDriveKinematics.desaturateWheelSpeeds(
                 swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_rearLeft.setDesiredState(swerveModuleStates[2]);
@@ -199,7 +202,20 @@ public class DriveSubsystem extends SubsystemBase {
     /**
      * Sets the wheels into an X formation to prevent movement.
      */
-    public void setX() {
+    public void formX() {
+        m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+        m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+        m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+        m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+    }
+
+    /**
+     * Sets the wheels into a
+     *  |  |
+     *  |  |
+     *  pattern
+     */
+    public void forward() {
         m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
         m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
         m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
