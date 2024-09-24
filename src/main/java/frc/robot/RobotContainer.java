@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import java.util.List;
 
-/*
+/**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
@@ -51,7 +51,14 @@ public class RobotContainer {
         robotDrive.setDefaultCommand(
                 // The left stick controls translation of the robot.
                 // Turning is controlled by the X axis of the right stick.
-                new RunCommand(() -> robotDrive.drive(MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband), -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband), -MathUtil.applyDeadband(driverController.getRawAxis(2), OIConstants.kDriveDeadband), false, true), robotDrive));
+                new RunCommand(() -> robotDrive.drive(
+                        MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
+                        -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband),
+                        // temporary measure to not do turning
+                        -MathUtil.applyDeadband(driverController.getRawAxis(3), OIConstants.kDriveDeadband),
+                        true, true
+                ), robotDrive)
+        );
     }
 
     public void printDangEncoders() {
@@ -70,6 +77,7 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Cease robot movement
         new JoystickButton(driverController, 1).whileTrue(new RunCommand(robotDrive::forward, robotDrive));
+        new JoystickButton(driverController, 2).whileTrue(new RunCommand(robotDrive::resetEncoders, robotDrive));
     }
 
     /**
@@ -78,7 +86,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        AHRS d = null;
         // Create config for trajectory
         TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                 // Add kinematics to ensure max speed is actually obeyed
