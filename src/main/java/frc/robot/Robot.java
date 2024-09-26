@@ -20,6 +20,14 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
 
   /**
+   * Call this method whenever something that isn't supposed to happen, happens
+   * REPLACE THIS EXCEPTION WITH A PRINT STATEMENT DURING COMPETITION
+   */
+  public static void errorAssert(String message) {
+    throw new IllegalStateException(message);
+  }
+
+  /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */

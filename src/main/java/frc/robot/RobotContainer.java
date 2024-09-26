@@ -46,18 +46,23 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the button bindings
         configureButtonBindings();
-
         // Configure default commands
         robotDrive.setDefaultCommand(
                 // The left stick controls translation of the robot.
                 // Turning is controlled by the X axis of the right stick.
-                new RunCommand(() -> robotDrive.drive(
-                        MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
-                        -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband),
-                        // temporary measure to not do turning
-                        -MathUtil.applyDeadband(driverController.getRawAxis(3), OIConstants.kDriveDeadband),
-                        true, true
-                ), robotDrive)
+                new RunCommand(() -> {
+                    int left = driverController.getRawButton(7) ? 1 : 0;
+                    int right = driverController.getRawButton(8) ? 1 : 0;
+                    double turn = (left - right) * 0.5;
+
+                    robotDrive.drive(
+                            MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
+                            -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband),
+                            // temporary measure to not do turning
+                            MathUtil.applyDeadband(turn, OIConstants.kDriveDeadband),
+                            true, true
+                    );
+                }, robotDrive)
         );
     }
 

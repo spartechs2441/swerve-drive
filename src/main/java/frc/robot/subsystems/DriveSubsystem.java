@@ -15,9 +15,15 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.util.Arrays;
 
 public class DriveSubsystem extends SubsystemBase {
     // Create MAXSwerveModules
@@ -142,7 +148,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     // Joystick Driving
     public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
-
+        if (rot > 1 || rot < -1) {
+            Robot.errorAssert("rot cannot be > 1, < -1");
+        }
+        SmartDashboard.putNumber("Rotation", rot * 360);
         double xSpeedCommanded;
         double ySpeedCommanded;
 
@@ -204,6 +213,16 @@ public class DriveSubsystem extends SubsystemBase {
         SwerveDriveKinematics.desaturateWheelSpeeds(
                 swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
+        SmartDashboard.putNumber("FrontLeft Desired", swerveModuleStates[0].angle.getDegrees());
+        SmartDashboard.putNumber("FrontRight Desired", swerveModuleStates[1].angle.getDegrees());
+        SmartDashboard.putNumber("BackLeft Desired", swerveModuleStates[2].angle.getDegrees());
+        SmartDashboard.putNumber("BackRight Desired", swerveModuleStates[3].angle.getDegrees());
+
+        SmartDashboard.putNumber("FrontLeft Actual", m_frontLeft.getDegrees());
+        SmartDashboard.putNumber("FrontRight Actual", m_frontRight.getDegrees());
+        SmartDashboard.putNumber("BackLeft Actual", m_rearLeft.getDegrees());
+        SmartDashboard.putNumber("BackRight Actual", m_rearRight.getDegrees());
+
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_rearLeft.setDesiredState(swerveModuleStates[2]);
@@ -229,10 +248,10 @@ public class DriveSubsystem extends SubsystemBase {
      *  pattern
      */
     public void forward() {
-        m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-        m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-        m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-        m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+        m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+        m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+        m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+        m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
     }
 
     /**
