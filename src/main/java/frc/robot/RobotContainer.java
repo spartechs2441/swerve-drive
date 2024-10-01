@@ -56,8 +56,8 @@ public class RobotContainer {
                     double turn = (left - right) * 0.5;
 
                     robotDrive.drive(
-                            MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
                             -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband),
+                            -MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
                             // temporary measure to not do turning
                             MathUtil.applyDeadband(turn, OIConstants.kDriveDeadband),
                             true, true

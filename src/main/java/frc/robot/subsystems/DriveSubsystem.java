@@ -46,40 +46,8 @@ public class DriveSubsystem extends SubsystemBase {
             DriveConstants.kRearRightDrivingCanId,
             DriveConstants.kRearRightTurningCanId,
             DriveConstants.kBackRightChassisAngularOffset);
-
-    public void printEncoders() {
-        String out =
-                "==S==\n" +
-                m_rearLeft.printEncoders() + '\n' +
-                m_rearRight.printEncoders() + '\n' +
-                m_frontLeft.printEncoders() + '\n' +
-                m_frontRight.printEncoders() + '\n' +
-                "==E==\n";
-        System.out.println(out);
-    }
-
     // The gyro sensor
     private final AHRS m_gyro = new AHRS(SPI.Port.kMXP);
-
-    // Slew rate filter variables for controlling lateral acceleration
-    private double m_currentRotation = 0.0;
-    private double m_currentTranslationDir = 0.0;
-    private double m_currentTranslationMag = 0.0;
-
-    private SlewRateLimiter m_magLimiter = new SlewRateLimiter(DriveConstants.kMagnitudeSlewRate);
-    private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
-    private double m_prevTime = WPIUtilJNI.now() * 1e-6;
-
-    /**
-     * Get the gyro status in {@link Rotation2d}
-     * This is used to invert the gyro since there is no way to do it manually
-     * @return gyro with stuff applied
-     */
-    private Rotation2d getGyro() {
-        return Rotation2d.fromDegrees(-this.m_gyro.getAngle());
-    }
-
-
     // Odometry class for tracking robot pose
     SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
             DriveConstants.kDriveKinematics,
@@ -90,11 +58,41 @@ public class DriveSubsystem extends SubsystemBase {
                     m_rearLeft.getPosition(),
                     m_rearRight.getPosition()
             });
+    // Slew rate filter variables for controlling lateral acceleration
+    private double m_currentRotation = 0.0;
+    private double m_currentTranslationDir = 0.0;
+    private double m_currentTranslationMag = 0.0;
+
+    private SlewRateLimiter m_magLimiter = new SlewRateLimiter(DriveConstants.kMagnitudeSlewRate);
+    private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
+    private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
     /**
      * Creates a new DriveSubsystem.
      */
-    public DriveSubsystem() {}
+    public DriveSubsystem() {
+    }
+
+    public void printEncoders() {
+        String out =
+                "==S==\n" +
+                        m_rearLeft.printEncoders() + '\n' +
+                        m_rearRight.printEncoders() + '\n' +
+                        m_frontLeft.printEncoders() + '\n' +
+                        m_frontRight.printEncoders() + '\n' +
+                        "==E==\n";
+        System.out.println(out);
+    }
+
+    /**
+     * Get the gyro status in {@link Rotation2d}
+     * This is used to invert the gyro since there is no way to do it manually
+     *
+     * @return gyro with stuff applied
+     */
+    private Rotation2d getGyro() {
+        return Rotation2d.fromDegrees(-this.m_gyro.getAngle());
+    }
 
     @Override
     public void periodic() {
@@ -242,10 +240,10 @@ public class DriveSubsystem extends SubsystemBase {
     /**
      * Sets the wheels into a
      * <code>
-     *  |  |
-     *  |  |
-     *  </code>
-     *  pattern
+     * |  |
+     * |  |
+     * </code>
+     * pattern
      */
     public void forward() {
         m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));

@@ -20,19 +20,12 @@ import frc.robot.Constants.ModuleConstants;
 public class MAXSwerveModule {
     private final CANSparkMax m_drivingSparkMax;
     private final CANSparkMax m_turningSparkMax;
-
-    public String printEncoders() {
-        return m_drivingSparkMax.getDeviceId()+ " Driving: " + m_drivingEncoder.getPosition() + " Turning: " + m_turningEncoder.getPosition();
-    }
     private final RelativeEncoder m_drivingEncoder;
     private final AbsoluteEncoder m_turningEncoder;
-
     private final SparkPIDController m_drivingPIDController;
     private final SparkPIDController m_turningPIDController;
-
     private double m_chassisAngularOffset = 0;
     private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
-
     /**
      * Constructs a MAXSwerveModule and configures the driving and turning motor,
      * encoder, and PID controller. This configuration is specific to the REV
@@ -115,6 +108,10 @@ public class MAXSwerveModule {
         m_chassisAngularOffset = chassisAngularOffset;
         m_desiredState.angle = new Rotation2d(m_turningEncoder.getPosition());
         m_drivingEncoder.setPosition(0);
+    }
+
+    public String printEncoders() {
+        return m_drivingSparkMax.getDeviceId() + " Driving: " + m_drivingEncoder.getPosition() + " Turning: " + m_turningEncoder.getPosition();
     }
 
     /**
