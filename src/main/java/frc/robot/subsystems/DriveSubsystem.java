@@ -15,15 +15,11 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import java.util.Arrays;
 
 public class DriveSubsystem extends SubsystemBase {
     // Create MAXSwerveModules
@@ -138,18 +134,18 @@ public class DriveSubsystem extends SubsystemBase {
      *
      * @param xSpeed        Speed of the robot in the x direction (forward).
      * @param ySpeed        Speed of the robot in the y direction (sideways).
-     * @param rot           Angular rate of the robot.
+     * @param rotation           Angular rate of the robot.
      * @param fieldRelative Whether the provided x and y speeds are relative to the
      *                      field.
      * @param rateLimit     Whether to enable rate limiting for smoother control.
      */
 
     // Joystick Driving
-    public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
-        if (rot > 1 || rot < -1) {
-            Robot.errorAssert("rot cannot be > 1, < -1");
+    public void drive(double xSpeed, double ySpeed, double rotation, boolean fieldRelative, boolean rateLimit) {
+        if (rotation > 1 || rotation < -1) {
+            Robot.errorAssert("rotation cannot be > 1, < -1");
         }
-        SmartDashboard.putNumber("Rotation", rot * 360);
+        SmartDashboard.putNumber("Rotation", rotation * 360);
         double xSpeedCommanded;
         double ySpeedCommanded;
 
@@ -189,13 +185,13 @@ public class DriveSubsystem extends SubsystemBase {
 
             xSpeedCommanded = m_currentTranslationMag * Math.cos(m_currentTranslationDir);
             ySpeedCommanded = m_currentTranslationMag * Math.sin(m_currentTranslationDir);
-            m_currentRotation = m_rotLimiter.calculate(rot);
+            m_currentRotation = m_rotLimiter.calculate(rotation);
 
 
         } else {
             xSpeedCommanded = xSpeed;
             ySpeedCommanded = ySpeed;
-            m_currentRotation = rot;
+            m_currentRotation = rotation;
         }
 
         // Convert the commanded speeds into the correct units for the drivetrain
@@ -208,6 +204,7 @@ public class DriveSubsystem extends SubsystemBase {
                         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, getGyro())
                         : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered)
         );
+
         SwerveDriveKinematics.desaturateWheelSpeeds(
                 swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
 
@@ -246,10 +243,13 @@ public class DriveSubsystem extends SubsystemBase {
      * pattern
      */
     public void forward() {
-        m_frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
-        m_frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
-        m_rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
-        m_rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(0)));
+        rotateAllMotorsDegrees(0);
+    }
+
+    public void rotateAllMotorsDegrees(double deg) {
+        SwerveModuleState state = new SwerveModuleState(0, Rotation2d.fromDegrees(deg));
+        SwerveModuleState[] states = {state, state, state, state};
+        setModuleStates(states);
     }
 
     /**

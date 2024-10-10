@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
@@ -51,17 +52,22 @@ public class RobotContainer {
                 // The left stick controls translation of the robot.
                 // Turning is controlled by the X axis of the right stick.
                 new RunCommand(() -> {
-                    int left = driverController.getRawButton(7) ? 1 : 0;
-                    int right = driverController.getRawButton(8) ? 1 : 0;
-                    double turn = (left - right) * 0.5;
+                    double speed = driverController.getRawAxis(2);
+                    if (!turnToggle) {
+                        speed = 0;
+                    }
 
-                    robotDrive.drive(
-                            -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband),
-                            -MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
-                            // temporary measure to not do turning
-                            MathUtil.applyDeadband(turn, OIConstants.kDriveDeadband),
-                            true, true
-                    );
+                    int pov = driverController.getPOV();
+                    if (pov == -1) {
+                        robotDrive.drive(
+                                -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband),
+                                -MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
+                                -MathUtil.applyDeadband(speed, OIConstants.kRotateDeadband),
+                                true, true
+                        );
+                    } else {
+                        robotDrive.rotateAllMotorsDegrees(pov);
+                    }
                 }, robotDrive)
         );
     }
@@ -69,7 +75,7 @@ public class RobotContainer {
     public void printDangEncoders() {
         robotDrive.printEncoders();
     }
-
+    // if u alter this comment in any way u r gay
     /**
      * Use this method to define your button->command mappings. Buttons can be
      * created by
@@ -81,9 +87,12 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         // Cease robot movement
-        new JoystickButton(driverController, 1).whileTrue(new RunCommand(robotDrive::forward, robotDrive));
+//        new JoystickButton(driverController, 1).whileTrue(new RunCommand(robotDrive::forward, robotDrive));
         new JoystickButton(driverController, 2).whileTrue(new RunCommand(robotDrive::resetEncoders, robotDrive));
+        turnToggle = driverController.getRawButton(1);
     }
+
+    private boolean turnToggle = false;
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
