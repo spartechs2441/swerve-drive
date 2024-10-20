@@ -86,9 +86,10 @@ public class DriveSubsystem extends SubsystemBase {
      *
      * @return gyro with stuff applied
      */
-    private Rotation2d getGyro() {
+    public Rotation2d getGyro() {
         return Rotation2d.fromDegrees(-this.m_gyro.getAngle());
     }
+
 
     @Override
     public void periodic() {
@@ -114,6 +115,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     /**
      * Resets the odometry to the specified pose.
+     *
      *
      * @param pose The pose to which to set the odometry.
      */

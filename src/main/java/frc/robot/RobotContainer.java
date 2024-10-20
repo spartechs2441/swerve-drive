@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -16,10 +15,10 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.command.LockRotation;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -36,10 +35,15 @@ import java.util.List;
  */
 public class RobotContainer {
     // The robot's subsystems
-    private final DriveSubsystem robotDrive = new DriveSubsystem();
+    private final DriveSubsystem driveSub = new DriveSubsystem();
 
     // The driver's controller
     Joystick driverController = new Joystick(OIConstants.kDriverControllerPort);
+
+    public Rotation2d getGyroDirection() {
+        return driveSub.getGyro();
+    }
+
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -48,34 +52,32 @@ public class RobotContainer {
         // Configure the button bindings
         configureButtonBindings();
         // Configure default commands
-        robotDrive.setDefaultCommand(
+        driveSub.setDefaultCommand(
                 // The left stick controls translation of the robot.
                 // Turning is controlled by the X axis of the right stick.
                 new RunCommand(() -> {
                     double speed = driverController.getRawAxis(2);
+                    // if the button (toggle) is not off, it will not turn
+                    boolean turnToggle = driverController.getRawButton(1);
                     if (!turnToggle) {
                         speed = 0;
                     }
 
-                    int pov = driverController.getPOV();
-                    if (pov == -1) {
-                        robotDrive.drive(
-                                -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband),
-                                -MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
-                                -MathUtil.applyDeadband(speed, OIConstants.kRotateDeadband),
-                                true, true
-                        );
-                    } else {
-                        robotDrive.rotateAllMotorsDegrees(pov);
-                    }
-                }, robotDrive)
+                    driveSub.drive(
+                            -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband),
+                            -MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
+                            -MathUtil.applyDeadband(speed, OIConstants.kRotateDeadband),
+                            true, true
+                    );
+                }, driveSub)
         );
     }
 
     public void printDangEncoders() {
-        robotDrive.printEncoders();
+        driveSub.printEncoders();
     }
     // if u alter this comment in any way u r gay
+
     /**
      * Use this method to define your button->command mappings. Buttons can be
      * created by
@@ -88,11 +90,21 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // Cease robot movement
 //        new JoystickButton(driverController, 1).whileTrue(new RunCommand(robotDrive::forward, robotDrive));
-        new JoystickButton(driverController, 2).whileTrue(new RunCommand(robotDrive::resetEncoders, robotDrive));
-        turnToggle = driverController.getRawButton(1);
-    }
+        // new JoystickButton(driverController, 2).whileTrue(new RunCommand(robotDrive::resetEncoders, robotDrive));
+        new JoystickButton(driverController, Constants.Controls.lockNorth).whileTrue(
+                new LockRotation(driveSub, Rotation2d.fromDegrees(0))
+        );
+        new JoystickButton(driverController, Constants.Controls.lockSouth).whileTrue(
+                new LockRotation(driveSub, Rotation2d.fromDegrees(180))
+        );
+        new JoystickButton(driverController, Constants.Controls.lockEast).whileTrue(
+                new LockRotation(driveSub, Rotation2d.fromDegrees(90))
+        );
+        new JoystickButton(driverController, Constants.Controls.lockWest).whileTrue(
+                new LockRotation(driveSub, Rotation2d.fromDegrees(270))
+        );
 
-    private boolean turnToggle = false;
+    }
 
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -117,16 +129,16 @@ public class RobotContainer {
         var thetaController = new ProfiledPIDController(AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(exampleTrajectory, robotDrive::getPose,
+        SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(exampleTrajectory, driveSub::getPose,
                 DriveConstants.kDriveKinematics,
 
                 // Position controllers
-                new PIDController(AutoConstants.kPXController, 0, 0), new PIDController(AutoConstants.kPYController, 0, 0), thetaController, robotDrive::setModuleStates, robotDrive);
+                new PIDController(AutoConstants.kPXController, 0, 0), new PIDController(AutoConstants.kPYController, 0, 0), thetaController, driveSub::setModuleStates, driveSub);
 
         // Reset odometry to the starting pose of the trajectory.
-        robotDrive.resetOdometry(exampleTrajectory.getInitialPose());
+        driveSub.resetOdometry(exampleTrajectory.getInitialPose());
 
         // Run path following command, then stop at the end.
-        return swerveControllerCommand.andThen(() -> robotDrive.drive(0, 0, 0, false, false));
+        return swerveControllerCommand.andThen(() -> driveSub.drive(0, 0, 0, false, false));
     }
 }

@@ -27,7 +27,8 @@ public final class Constants {
     public static final class DriveConstants {
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        public static final double kMaxSpeedMetersPerSecond = 4.8 / 2; // 0.3;
+        public static final double kSpeedThrottle = 4;
+        public static final double kMaxSpeedMetersPerSecond = 4.8 / kSpeedThrottle; // 0.3;
         public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
         public static final double kDirectionSlewRate = 1.2; // radians per second
@@ -134,5 +135,12 @@ public final class Constants {
 
     public static final class NeoMotorConstants {
         public static final double kFreeSpeedRpm = 5676;
+    }
+    public static final class Controls {
+        public static final int turnToggle = 1;
+        public static final int lockNorth = 7;
+        public static final int lockEast = 8;
+        public static final int lockWest = 9;
+        public static final int lockSouth = 10;
     }
 }
