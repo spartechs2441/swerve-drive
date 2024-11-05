@@ -26,7 +26,8 @@ public class Robot extends TimedRobot {
      * REPLACE THIS EXCEPTION WITH A PRINT STATEMENT DURING COMPETITION
      */
     public static void errorAssert(String message) {
-        throw new IllegalStateException(message);
+        System.out.println(message);
+        // throw new IllegalStateException(message);
     }
 
     /**

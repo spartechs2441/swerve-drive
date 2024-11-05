@@ -4,28 +4,18 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
-import frc.robot.command.LockRotation;
-import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.Constants.OIConstants;
+import frc.robot.command.DriveCmd;
+import frc.robot.command.LockRotation;
+import frc.robot.command.LimeLightCmd;
+import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import java.util.List;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -36,14 +26,9 @@ import java.util.List;
 public class RobotContainer {
     // The robot's subsystems
     private final DriveSubsystem driveSub = new DriveSubsystem();
-
+    public NetworkTable limeLight = NetworkTableInstance.getDefault().getTable("limelight");
     // The driver's controller
     Joystick driverController = new Joystick(OIConstants.kDriverControllerPort);
-
-    public Rotation2d getGyroDirection() {
-        return driveSub.getGyro();
-    }
-
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -55,22 +40,15 @@ public class RobotContainer {
         driveSub.setDefaultCommand(
                 // The left stick controls translation of the robot.
                 // Turning is controlled by the X axis of the right stick.
-                new RunCommand(() -> {
-                    double speed = driverController.getRawAxis(2);
-                    // if the button (toggle) is not off, it will not turn
-                    boolean turnToggle = driverController.getRawButton(1);
-                    if (!turnToggle) {
-                        speed = 0;
-                    }
-
-                    driveSub.drive(
-                            -MathUtil.applyDeadband(driverController.getRawAxis(1), OIConstants.kDriveDeadband),
-                            -MathUtil.applyDeadband(driverController.getRawAxis(0), OIConstants.kDriveDeadband),
-                            -MathUtil.applyDeadband(speed, OIConstants.kRotateDeadband),
-                            true, true
-                    );
-                }, driveSub)
+                new DriveCmd(driveSub,
+                        driverController,
+                        true, true
+                )
         );
+    }
+
+    public Rotation2d getGyroDirection() {
+        return driveSub.getGyro();
     }
 
     public void printDangEncoders() {
@@ -103,7 +81,9 @@ public class RobotContainer {
         new JoystickButton(driverController, Constants.Controls.lockWest).whileTrue(
                 new LockRotation(driveSub, Rotation2d.fromDegrees(270))
         );
-
+        new JoystickButton(driverController, Constants.Controls.lightTrack).whileTrue(
+                new LimeLightCmd(limeLight, driveSub, driverController)
+        );
     }
 
     /**
@@ -112,6 +92,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
+/*
         // Create config for trajectory
         TrajectoryConfig config = new TrajectoryConfig(AutoConstants.kMaxSpeedMetersPerSecond, AutoConstants.kMaxAccelerationMetersPerSecondSquared)
                 // Add kinematics to ensure max speed is actually obeyed
@@ -140,5 +121,7 @@ public class RobotContainer {
 
         // Run path following command, then stop at the end.
         return swerveControllerCommand.andThen(() -> driveSub.drive(0, 0, 0, false, false));
+*/
+        return null;
     }
 }

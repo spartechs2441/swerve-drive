@@ -2,6 +2,7 @@ package frc.robot.command;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class LockRotation extends Command {
@@ -33,6 +34,11 @@ public class LockRotation extends Command {
             difference = Math.max(difference, MIN_SPEED);
         } else if (difference < 0) {
             difference = Math.min(difference, -MIN_SPEED);
+        }
+
+        if (difference > 1 || difference < -1) {
+            Robot.errorAssert("Calculated rotation cannot be > 1, < -1\nCalculated value: "
+                    + difference + " target: " + targetRot.getDegrees() % 360 + " actual: " + driveSub.getGyro().getDegrees() % 360);
         }
         driveSub.drive(0, 0, difference, true, true);
     }

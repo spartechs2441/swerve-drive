@@ -142,5 +142,6 @@ public final class Constants {
         public static final int lockEast = 8;
         public static final int lockWest = 9;
         public static final int lockSouth = 10;
+        public static final int lightTrack = 12;
     }
 }
