@@ -1,0 +1,291 @@
+{
+  "tabPane": [
+    {
+      "title": "Movement",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "SmartDashboard/",
+      "widgetPane": {
+        "gridSize": 64.0,
+        "showGrid": true,
+        "hgap": 32.0,
+        "vgap": 32.0,
+        "titleType": 0,
+        "tiles": {
+          "0,0": {
+            "size": [
+              10,
+              6
+            ],
+            "content": {
+              "_type": "Grid Layout",
+              "_title": "Motor State",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Number of columns": 6,
+              "Layout/Number of rows": 2,
+              "Layout/Label position": "BOTTOM",
+              "_children": {
+                "1,0": {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/FrontLeft Actual",
+                  "_title": "FrontLeft Actual",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                },
+                "2,0": {
+                  "_type": "Number Bar",
+                  "_source0": "network_table:///SmartDashboard/FrontLeft Speed",
+                  "_title": "FrontLeft Speed",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Range/Min": 0.0,
+                  "Range/Max": 4.8,
+                  "Range/Center": 0.0,
+                  "Visuals/Num tick marks": 5,
+                  "Visuals/Show text": true,
+                  "Visuals/Orientation": "VERTICAL"
+                },
+                "2,1": {
+                  "_type": "Number Bar",
+                  "_source0": "network_table:///SmartDashboard/BackLeft Speed",
+                  "_title": "BackLeft Speed",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Range/Min": 0.0,
+                  "Range/Max": 4.8,
+                  "Range/Center": 0.0,
+                  "Visuals/Num tick marks": 5,
+                  "Visuals/Show text": true,
+                  "Visuals/Orientation": "VERTICAL"
+                },
+                "1,1": {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/BackLeft Actual",
+                  "_title": "BackLeft Actual",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                },
+                "0,1": {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/BackLeft Desired",
+                  "_title": "BackLeft Desired",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                },
+                "0,0": {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/FrontLeft Desired",
+                  "_title": "FrontLeft Desired",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                },
+                "3,1": {
+                  "_type": "Number Bar",
+                  "_source0": "network_table:///SmartDashboard/BackRight Speed",
+                  "_title": "BackRight Speed",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Range/Min": 0.0,
+                  "Range/Max": 4.8,
+                  "Range/Center": 0.0,
+                  "Visuals/Num tick marks": 5,
+                  "Visuals/Show text": true,
+                  "Visuals/Orientation": "VERTICAL"
+                },
+                "3,0": {
+                  "_type": "Number Bar",
+                  "_source0": "network_table:///SmartDashboard/FrontRight Speed",
+                  "_title": "FrontRight Speed",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Range/Min": 0.0,
+                  "Range/Max": 4.8,
+                  "Range/Center": 0.0,
+                  "Visuals/Num tick marks": 5,
+                  "Visuals/Show text": true,
+                  "Visuals/Orientation": "VERTICAL"
+                },
+                "4,0": {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/FrontRight Actual",
+                  "_title": "FrontRight Actual",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                },
+                "4,1": {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/BackRight Actual",
+                  "_title": "BackRight Actual",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                },
+                "5,1": {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/BackRight Desired",
+                  "_title": "BackRight Desired",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                },
+                "5,0": {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/FrontRight Desired",
+                  "_title": "FrontRight Desired",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                }
+              }
+            }
+          },
+          "13,3": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/limelight_PipelineName",
+              "_title": "limelight_PipelineName",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "13,0": {
+            "size": [
+              3,
+              2
+            ],
+            "content": {
+              "_type": "Text View",
+              "_source0": "network_table:///SmartDashboard/limelight_Stream",
+              "_title": "limelight_Stream",
+              "_glyph": 148,
+              "_showGlyph": false
+            }
+          },
+          "10,0": {
+            "size": [
+              3,
+              6
+            ],
+            "content": {
+              "_type": "Subsystem Layout",
+              "_title": "Subsystem Layout",
+              "_glyph": 149,
+              "_showGlyph": false,
+              "Layout/Label position": "BOTTOM",
+              "_children": [
+                {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/Gyro",
+                  "_title": "Gyro",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                },
+                {
+                  "_type": "Gyro",
+                  "_source0": "network_table:///SmartDashboard/Rotation",
+                  "_title": "Rotation",
+                  "_glyph": 148,
+                  "_showGlyph": false,
+                  "Visuals/Major tick spacing": 45.0,
+                  "Visuals/Starting angle": 180.0,
+                  "Visuals/Show tick mark ring": true,
+                  "Visuals/Counter clockwise": false
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Main",
+      "autoPopulate": true,
+      "autoPopulatePrefix": "LiveWindow/",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {
+          "3,0": {
+            "size": [
+              6,
+              5
+            ],
+            "content": {
+              "_type": "Camera Stream",
+              "_title": "Camera Stream",
+              "_glyph": 148,
+              "_showGlyph": false,
+              "Crosshair/Show crosshair": true,
+              "Crosshair/Crosshair color": "#FFFFFFFF",
+              "Controls/Show controls": true,
+              "Controls/Rotation": "NONE",
+              "compression": -1.0,
+              "fps": -1,
+              "imageWidth": -1,
+              "imageHeight": -1
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Limelight",
+      "autoPopulate": false,
+      "autoPopulatePrefix": "",
+      "widgetPane": {
+        "gridSize": 128.0,
+        "showGrid": true,
+        "hgap": 16.0,
+        "vgap": 16.0,
+        "titleType": 0,
+        "tiles": {}
+      }
+    }
+  ],
+  "windowGeometry": {
+    "x": -7.333333492279053,
+    "y": -7.333333492279053,
+    "width": 1721.3333740234375,
+    "height": 926.6666870117188
+  }
+}
