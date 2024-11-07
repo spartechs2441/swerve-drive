@@ -300,6 +300,11 @@ public class DriveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("BackLeft Actual", m_rearLeft.getDegrees());
         SmartDashboard.putNumber("BackRight Actual", m_rearRight.getDegrees());
 
+        SmartDashboard.putNumber("FrontLeft Speed", swerveModuleStates[0].speedMetersPerSecond);
+        SmartDashboard.putNumber("FrontRight Speed", swerveModuleStates[1].speedMetersPerSecond);
+        SmartDashboard.putNumber("BackLeft Speed", swerveModuleStates[2].speedMetersPerSecond);
+        SmartDashboard.putNumber("BackRight Speed", swerveModuleStates[3].speedMetersPerSecond);
+
         m_frontLeft.setDesiredState(swerveModuleStates[0]);
         m_frontRight.setDesiredState(swerveModuleStates[1]);
         m_rearLeft.setDesiredState(swerveModuleStates[2]);

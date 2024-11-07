@@ -49,7 +49,7 @@ public class LimeLightCmd extends Command {
         // if it is too high, the robot will oscillate around.
         // if it is too low, the robot will never reach its target
         // if the robot never turns in the correct direction, kP should be inverted.
-        double kP = .035;
+        double kP = .005; // .035;
 
         // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of
         // your limelight 3 feed, tx should return roughly 31 degrees.
