@@ -7,6 +7,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,7 +17,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Constants.DriveConstants;
 
 public class LimeLightCmd extends Command {
-    private final Joystick joystick;
+    private final XboxController joystick;
     NetworkTable llight;
     private NetworkTableEntry tx;
     private NetworkTableEntry ty;
@@ -28,7 +29,7 @@ public class LimeLightCmd extends Command {
     private Long isSomething;
     private DriveSubsystem driveSub;
 
-    public LimeLightCmd(NetworkTable limeLight, DriveSubsystem subsystem, Joystick joystick) {
+    public LimeLightCmd(NetworkTable limeLight, DriveSubsystem subsystem, XboxController joystick) {
         llight = limeLight;
         this.joystick = joystick;
         ta = llight.getEntry("ta"); //area of reflective object
@@ -82,7 +83,7 @@ public class LimeLightCmd extends Command {
 
     @Override
     public void execute() {
-        double ySpeed = -MathUtil.applyDeadband(this.joystick.getRawAxis(0), Constants.OIConstants.kDriveDeadband);
+        double ySpeed = -MathUtil.applyDeadband(this.joystick.getRawAxis(Constants.Controls.yMovement), Constants.OIConstants.kDriveDeadband);
 
         final double rot_limelight = limelightAimProportional();
         final double forward_limelight = limelightRangeProportional();

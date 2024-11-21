@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -27,7 +28,7 @@ public final class Constants {
     public static final class DriveConstants {
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        public static final double kSpeedThrottle = 4;
+        public static final double kSpeedThrottle = 2;
         public static final double kMaxSpeedMetersPerSecond = 4.8 / kSpeedThrottle; // 0.3;
         public static final double kMaxAngularSpeed = 2 * Math.PI; // radians per second
 
@@ -137,11 +138,15 @@ public final class Constants {
         public static final double kFreeSpeedRpm = 5676;
     }
     public static final class Controls {
-        public static final int turnToggle = 1;
-        public static final int lockNorth = 7;
-        public static final int lockEast = 8;
-        public static final int lockWest = 9;
-        public static final int lockSouth = 10;
-        public static final int lightTrack = 12;
+        public static final int lockNorth = XboxController.Button.kY.value;
+        public static final int lockEast = XboxController.Button.kB.value;
+        public static final int lockWest = XboxController.Button.kX.value;
+        public static final int lockSouth = XboxController.Button.kA.value;
+        public static final int lightTrack = XboxController.Button.kRightBumper.value;
+
+        //Controller Controls
+        public static final int yMovement = XboxController.Axis.kLeftX.value; //The X and Y Movement are switched
+        public static final int xMovement = XboxController.Axis.kLeftY.value;
+        public static final int rotation = XboxController.Axis.kRightX.value;
     }
 }

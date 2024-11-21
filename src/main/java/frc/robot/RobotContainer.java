@@ -28,7 +28,7 @@ public class RobotContainer {
     private final DriveSubsystem driveSub = new DriveSubsystem();
     public NetworkTable limeLight = NetworkTableInstance.getDefault().getTable("limelight");
     // The driver's controller
-    Joystick driverController = new Joystick(OIConstants.kDriverControllerPort);
+    XboxController driverController = new XboxController(OIConstants.kDriverControllerPort);
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -76,10 +76,10 @@ public class RobotContainer {
                 new LockRotation(driveSub, Rotation2d.fromDegrees(180))
         );
         new JoystickButton(driverController, Constants.Controls.lockEast).whileTrue(
-                new LockRotation(driveSub, Rotation2d.fromDegrees(90))
+                new LockRotation(driveSub, Rotation2d.fromDegrees(270))
         );
         new JoystickButton(driverController, Constants.Controls.lockWest).whileTrue(
-                new LockRotation(driveSub, Rotation2d.fromDegrees(270))
+                new LockRotation(driveSub, Rotation2d.fromDegrees(90))
         );
         new JoystickButton(driverController, Constants.Controls.lightTrack).whileTrue(
                 new LimeLightCmd(limeLight, driveSub, driverController)

@@ -2,6 +2,7 @@ package frc.robot.command;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -11,7 +12,7 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveCmd extends Command {
 
     private final DriveSubsystem driveSub;
-    private final Joystick joystick;
+    private final XboxController joystick;
     private final boolean fieldRelative;
     private final boolean rateLimit;
 
@@ -23,7 +24,7 @@ public class DriveCmd extends Command {
      *                      field.
      * @param rateLimit     Whether to enable rate limiting for smoother control.
      */
-    public DriveCmd(DriveSubsystem driveSub, Joystick joystick, boolean fieldRelative, boolean rateLimit) {
+    public DriveCmd(DriveSubsystem driveSub, XboxController joystick, boolean fieldRelative, boolean rateLimit) {
         this.driveSub = driveSub;
         this.joystick = joystick;
         this.fieldRelative = fieldRelative;
@@ -36,12 +37,9 @@ public class DriveCmd extends Command {
     // Joystick Driving
     @Override
     public void execute() {
-        double xSpeed = -MathUtil.applyDeadband(this.joystick.getRawAxis(1), Constants.OIConstants.kDriveDeadband);
-        double ySpeed = -MathUtil.applyDeadband(this.joystick.getRawAxis(0), Constants.OIConstants.kDriveDeadband);
-        double rotation = -MathUtil.applyDeadband(this.joystick.getRawAxis(2), Constants.OIConstants.kRotateDeadband);
-        if (!this.joystick.getRawButton(1)) {
-            rotation = 0;
-        }
+        double xSpeed = -MathUtil.applyDeadband(this.joystick.getRawAxis(Constants.Controls.xMovement), Constants.OIConstants.kDriveDeadband);
+        double ySpeed = -MathUtil.applyDeadband(this.joystick.getRawAxis(Constants.Controls.yMovement), Constants.OIConstants.kDriveDeadband);
+        double rotation = -MathUtil.applyDeadband(this.joystick.getRawAxis(Constants.Controls.rotation), Constants.OIConstants.kRotateDeadband);
         if (rotation > 1 || rotation < -1) {
             Robot.errorAssert("rotation cannot be > 1, < -1, actual value: " + rotation);
         }
