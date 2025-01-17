@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.OIConstants;
-import frc.robot.command.DriveCmd;
-import frc.robot.command.LockRotation;
-import frc.robot.command.LimeLightCmd;
+import frc.robot.command.*;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.networktables.NetworkTable;
@@ -83,6 +81,9 @@ public class RobotContainer {
         );
         new JoystickButton(driverController, Constants.Controls.lightTrack).whileTrue(
                 new LimeLightCmd(limeLight, driveSub, driverController)
+        );
+        new JoystickButton(driverController, Constants.Controls.tare).onTrue(
+                new TareCmd(driveSub)
         );
     }
 

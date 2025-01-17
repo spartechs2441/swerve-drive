@@ -142,11 +142,15 @@ public final class Constants {
         public static final int lockEast = XboxController.Button.kB.value;
         public static final int lockWest = XboxController.Button.kX.value;
         public static final int lockSouth = XboxController.Button.kA.value;
-        public static final int lightTrack = XboxController.Button.kRightBumper.value;
+        public static final int slowDown = XboxController.Button.kRightBumper.value;
+        public static final int lightTrack = XboxController.Button.kLeftBumper.value;
+        public static final int tare = XboxController.Button.kBack.value;
 
-        //Controller Controls
+
+        // Rotational Controls
         public static final int yMovement = XboxController.Axis.kLeftX.value; //The X and Y Movement are switched
         public static final int xMovement = XboxController.Axis.kLeftY.value;
         public static final int rotation = XboxController.Axis.kRightX.value;
     }
+
 }

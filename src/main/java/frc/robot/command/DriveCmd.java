@@ -37,8 +37,13 @@ public class DriveCmd extends Command {
     // Joystick Driving
     @Override
     public void execute() {
+        boolean slow = this.joystick.getRawButton(Constants.Controls.slowDown);
         double xSpeed = -MathUtil.applyDeadband(this.joystick.getRawAxis(Constants.Controls.xMovement), Constants.OIConstants.kDriveDeadband);
         double ySpeed = -MathUtil.applyDeadband(this.joystick.getRawAxis(Constants.Controls.yMovement), Constants.OIConstants.kDriveDeadband);
+        if (slow) {
+            xSpeed /= 2;
+            ySpeed /= 2;
+        }
         double rotation = -MathUtil.applyDeadband(this.joystick.getRawAxis(Constants.Controls.rotation), Constants.OIConstants.kRotateDeadband);
         if (rotation > 1 || rotation < -1) {
             Robot.errorAssert("rotation cannot be > 1, < -1, actual value: " + rotation);

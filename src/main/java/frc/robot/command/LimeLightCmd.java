@@ -42,6 +42,7 @@ public class LimeLightCmd extends Command {
 
     // simple proportional turning control with Limelight.
     // "proportional control" is a control algorithm in which the output is proportional to the error.
+    // bye squidward
     // in this case, we are going to return an angular velocity that is proportional to the
     // "tx" value from the Limelight.
     double limelightAimProportional() {
@@ -66,6 +67,7 @@ public class LimeLightCmd extends Command {
     }
 
     // simple proportional ranging control with Limelight's "ty" value
+    // HI SQUIDWARD
     // this works best if your Limelight's mount height and target mount height are different.
     // if your limelight and target are mounted at the same or similar heights, use "ta" (area) for target ranging rather than "ty"
     double limelightRangeProportional() {

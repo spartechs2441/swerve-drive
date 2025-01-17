@@ -55,6 +55,7 @@ public class DriveSubsystem extends SubsystemBase {
     private SlewRateLimiter m_magLimiter = new SlewRateLimiter(Constants.DriveConstants.kMagnitudeSlewRate);
     private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Constants.DriveConstants.kRotationalSlewRate);
     private double m_prevTime = WPIUtilJNI.now() * 1e-6;
+    private double tare = 0;
 
     // Odometry class for tracking robot pose
     SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -91,9 +92,12 @@ public class DriveSubsystem extends SubsystemBase {
      * @return gyro with stuff applied
      */
     public Rotation2d getGyro() {
-        return Rotation2d.fromDegrees(-this.m_gyro.getAngle());
+        return Rotation2d.fromDegrees(-this.m_gyro.getAngle() - tare);
     }
 
+    public void tare() {
+        this.tare += getGyro().getDegrees();
+    }
 
     @Override
     public void periodic() {
